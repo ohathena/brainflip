@@ -7,7 +7,11 @@ import Game from './pages/Game';
 import './App.css';
 
 function ProtectedRoute({ children }) {
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, loading } = useAuth();
+
+  if (loading) {
+    return <div className="loading-container"><p>Loading...</p></div>;
+  }
 
   return isAuthenticated ? children : <Navigate to="/login" />;
 }

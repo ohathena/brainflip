@@ -52,7 +52,11 @@ export default function Signup() {
 
       // Attempt signup with Firebase
       await signup(formData.username, formData.email, formData.password);
-      navigate('/game');
+      
+      // Give auth state listener a moment to fire before navigating
+      setTimeout(() => {
+        navigate('/game');
+      }, 300);
     } catch (err) {
       // Handle Firebase specific errors
       if (err.code === 'auth/configuration-not-found') {
