@@ -56,19 +56,17 @@ export function AuthProvider({ children }) {
       // Create user in Firebase Auth
       const result = await createUserWithEmailAndPassword(auth, email, password);
       
-      // Save user profile to Firestore with error handling
-      try {
-        await saveUserProfile(result.user.uid, {
-          username,
-          email,
-          uid: result.user.uid,
-          totalGamesPlayed: 0,
-          totalGamesWon: 0,
-        });
-      } catch (firestoreError) {
+      // Save user profile to Firestore asynchronously (non-blocking)
+      saveUserProfile(result.user.uid, {
+        username,
+        email,
+        uid: result.user.uid,
+        totalGamesPlayed: 0,
+        totalGamesWon: 0,
+      }).catch((firestoreError) => {
         console.warn('Could not save profile to Firestore:', firestoreError);
-        // Continue anyway - auth was successful
-      }
+        // Silent fail - auth was successful, profile will be created on next login attempt
+      });
 
       return result.user;
     } catch (err) {
