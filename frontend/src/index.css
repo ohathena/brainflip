@@ -1,0 +1,169 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    box-sizing: border-box;
+  }
+
+  body {
+    background-color: #0a0a1a;
+    color: #e2e8f0;
+    font-family: 'Inter', system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+  }
+
+  ::-webkit-scrollbar {
+    width: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #12122a;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #6366f1;
+    border-radius: 3px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #818cf8;
+  }
+
+  ::selection {
+    background: rgba(99, 102, 241, 0.4);
+    color: #e2e8f0;
+  }
+}
+
+@layer components {
+  .glass-card {
+    background: rgba(255, 255, 255, 0.04);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 16px;
+  }
+
+  .glass-card-hover {
+    background: rgba(255, 255, 255, 0.04);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 16px;
+    transition: all 0.3s ease;
+  }
+
+  .glass-card-hover:hover {
+    background: rgba(99, 102, 241, 0.1);
+    border-color: rgba(99, 102, 241, 0.3);
+    box-shadow: 0 20px 60px rgba(99, 102, 241, 0.25);
+  }
+
+  .btn-primary {
+    @apply bg-primary text-white font-semibold px-6 py-3 rounded-xl;
+    @apply transition-all duration-200;
+    @apply hover:bg-primary-dark hover:shadow-neon-indigo;
+    @apply active:scale-95;
+    @apply focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-surface;
+  }
+
+  .btn-ghost {
+    @apply bg-transparent text-primary font-semibold px-6 py-3 rounded-xl;
+    @apply border border-primary/30 transition-all duration-200;
+    @apply hover:bg-primary/10 hover:border-primary/60;
+    @apply active:scale-95;
+  }
+
+  .input-field {
+    @apply w-full bg-surface-elevated border border-surface-border rounded-xl px-4 py-3;
+    @apply text-white placeholder-gray-500;
+    @apply focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary;
+    @apply transition-all duration-200;
+  }
+
+  .neon-text {
+    background: linear-gradient(135deg, #6366f1, #8b5cf6, #bc13fe);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .neon-text-cyan {
+    background: linear-gradient(135deg, #00ffff, #6366f1);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .page-container {
+    @apply min-h-screen pt-20 pb-12 px-4;
+  }
+
+  .section-title {
+    @apply text-3xl font-display font-bold text-white;
+  }
+
+  .stat-card {
+    @apply glass-card p-6 flex flex-col gap-2;
+  }
+}
+
+@layer utilities {
+  .text-glow-indigo {
+    text-shadow: 0 0 20px rgba(99, 102, 241, 0.8);
+  }
+
+  .text-glow-cyan {
+    text-shadow: 0 0 20px rgba(0, 255, 255, 0.8);
+  }
+
+  .animate-float {
+    animation: float 6s ease-in-out infinite;
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-12px); }
+  }
+
+  @keyframes pulseGlow {
+    0%, 100% { box-shadow: 0 0 20px rgba(99, 102, 241, 0.3); }
+    50% { box-shadow: 0 0 40px rgba(99, 102, 241, 0.7), 0 0 80px rgba(99, 102, 241, 0.3); }
+  }
+
+  .animate-pulse-glow {
+    animation: pulseGlow 2s ease-in-out infinite;
+  }
+
+  @keyframes shimmer {
+    0% { background-position: -1000px 0; }
+    100% { background-position: 1000px 0; }
+  }
+
+  @keyframes gradientMove {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+
+  .gradient-animated {
+    background: linear-gradient(-45deg, #0a0a1a, #1a0f3e, #0f1a3e, #12122a);
+    background-size: 400% 400%;
+    animation: gradientMove 15s ease infinite;
+  }
+
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+  }
+
+  .cursor-blink::after {
+    content: '|';
+    animation: blink 1s infinite;
+    color: #6366f1;
+  }
+
+  @keyframes countDown {
+    from { stroke-dashoffset: 0; }
+    to { stroke-dashoffset: 283; }
+  }
+}
