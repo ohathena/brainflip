@@ -79,15 +79,6 @@ function ParticleField() {
 
 const GAMES = [
   {
-    icon: '✊',
-    title: 'Rock Paper Scissors',
-    description: 'Face off against a smart bot in fast-paced tournament mode. Best of 5 or 10 rounds.',
-    path: '/games/rps',
-    color: 'from-indigo-500/20 to-purple-500/20',
-    border: 'border-indigo-500/30',
-    glow: 'shadow-neon-indigo',
-  },
-  {
     icon: '🃏',
     title: 'Memory Flip',
     description: 'Test your memory with progressive difficulty grids. Match all pairs to win.',

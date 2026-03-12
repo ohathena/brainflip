@@ -8,7 +8,7 @@ import Loader from '../components/ui/Loader'
 
 const RESULT_COLORS = { win: 'text-neon-green', lose: 'text-red-400', draw: 'text-yellow-400' }
 const RESULT_ICONS  = { win: '🏆', lose: '💀', draw: '🤝' }
-const GAME_ICONS    = { rps: '✊', memory: '🃏' }
+const GAME_ICONS    = { memory: '🃏' }
 
 function StatCard({ icon, label, value, gradient, delay = 0 }) {
   return (
@@ -68,7 +68,6 @@ export default function Dashboard() {
         {/* Quick Actions */}
         <div className="grid sm:grid-cols-2 gap-4 mb-8 sm:mb-10">
           {[
-            { to: '/games/rps',    icon: '✊', title: 'Rock Paper Scissors', color: 'border-primary/30 hover:border-primary/60' },
             { to: '/games/memory', icon: '🃏', title: 'Memory Flip',         color: 'border-cyan-500/30 hover:border-cyan-500/60' },
           ].map((g) => (
             <motion.div key={g.to} whileHover={{ scale: 1.02, y: -2 }} whileTap={{ scale: 0.98 }}>
@@ -100,7 +99,7 @@ export default function Dashboard() {
                     <span className="text-xl">{GAME_ICONS[item.game_type] || '🎮'}</span>
                     <div>
                       <div className="text-sm text-white capitalize">
-                        {item.game_type === 'rps' ? 'Rock Paper Scissors' : 'Memory Flip'}
+                        {item.game_type === 'memory' ? 'Memory Flip' : item.game_type}
                       </div>
                       <div className="text-xs text-gray-500">{new Date(item.created_at).toLocaleDateString()}</div>
                     </div>

@@ -11,7 +11,6 @@ const Login = lazy(() => import('./pages/Login'))
 const Signup = lazy(() => import('./pages/Signup'))
 const Dashboard = lazy(() => import('./pages/Dashboard'))
 const GameHub = lazy(() => import('./pages/GameHub'))
-const RockPaperScissors = lazy(() => import('./pages/RockPaperScissors'))
 const MemoryFlip = lazy(() => import('./pages/MemoryFlip'))
 const Leaderboard = lazy(() => import('./pages/Leaderboard'))
 const Feedback = lazy(() => import('./pages/Feedback'))
@@ -45,7 +44,6 @@ export default function App() {
             <Route path="/signup" element={<PublicOnlyRoute><Signup /></PublicOnlyRoute>} />
             <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
             <Route path="/games" element={<ProtectedRoute><GameHub /></ProtectedRoute>} />
-            <Route path="/games/rps" element={<ProtectedRoute><RockPaperScissors /></ProtectedRoute>} />
             <Route path="/games/memory" element={<ProtectedRoute><MemoryFlip /></ProtectedRoute>} />
             <Route path="/leaderboard" element={<Leaderboard />} />
             <Route path="/feedback" element={<Feedback />} />

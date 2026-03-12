@@ -7,7 +7,6 @@ import Loader from '../components/ui/Loader'
 const RANK_ICONS = { 1: '🥇', 2: '🥈', 3: '🥉' }
 const GAME_FILTERS = [
   { id: null, label: 'All Games' },
-  { id: 'rps', label: '✊ RPS' },
   { id: 'memory', label: '🃏 Memory' },
 ]
 
@@ -98,7 +97,7 @@ export default function Leaderboard() {
                 </div>
                 <div className="col-span-3">
                   <span className="text-xs glass-card px-2 py-1 rounded-full text-gray-400">
-                    {row.game_type === 'rps' ? '✊ RPS' : '🃏 Memory'}
+                    {'🃏 Memory'}
                   </span>
                 </div>
                 <div className="col-span-2 text-right font-mono font-bold text-white">{row.score}</div>

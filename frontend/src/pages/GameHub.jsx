@@ -5,19 +5,6 @@ import PageWrapper from '../components/layout/PageWrapper'
 
 const GAMES = [
   {
-    id: 'rps',
-    icon: '✊',
-    title: 'Rock Paper Scissors',
-    subtitle: 'Tournament',
-    description: 'Face an AI opponent in timed rounds. Choose wisely — your pick locks when the countdown hits zero.',
-    tags: ['Best of 5', 'Best of 9', 'Suspense Timer'],
-    path: '/games/rps',
-    gradient: 'from-indigo-600/20 via-purple-600/10 to-transparent',
-    border: 'border-indigo-500/30',
-    glow: 'shadow-neon-indigo',
-    accent: 'text-primary-light',
-  },
-  {
     id: 'memory',
     icon: '🃏',
     title: 'Memory Flip',

@@ -7,7 +7,7 @@ import Input from '../components/ui/Input'
 const FORMSPREE_URL = 'https://formspree.io/f/xnjgdlwr'
 
 const CATEGORIES = ['Bug Report', 'Game Suggestion', 'UI/UX Feedback', 'Performance', 'Other']
-const GAMES = ['Rock Paper Scissors', 'Memory Flip', 'General (All Games)']
+const GAMES = ['Memory Flip', 'General (All Games)']
 
 const StarRating = ({ value, onChange }) => (
   <div className="flex gap-1">
