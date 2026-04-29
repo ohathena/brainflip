@@ -1,19 +1,12 @@
-const supabase = require('../config/supabase');
+const GameSession = require('../models/GameSession');
+const Score = require('../models/Score');
 
 const saveGameResult = async ({ userId, gameType, score, result, streak }) => {
   // Insert into game_sessions
-  const { error: sessionError } = await supabase
-    .from('game_sessions')
-    .insert({ user_id: userId, game_type: gameType, score, result });
-
-  if (sessionError) throw sessionError;
+  await GameSession.create({ user_id: userId, game_type: gameType, score, result });
 
   // Insert into scores
-  const { error: scoreError } = await supabase
-    .from('scores')
-    .insert({ user_id: userId, game_type: gameType, score, streak: streak || 0 });
-
-  if (scoreError) throw scoreError;
+  await Score.create({ user_id: userId, game_type: gameType, score, streak: streak || 0 });
 
   return { success: true };
 };

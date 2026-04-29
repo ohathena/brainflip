@@ -9,8 +9,12 @@ const gameRoutes = require('./routes/game');
 const leaderboardRoutes = require('./routes/leaderboard');
 const userRoutes = require('./routes/user');
 const feedbackRoutes = require('./routes/feedback');
+const connectDB = require('./config/db');
 
 const app = express();
+
+// Connect to MongoDB
+connectDB();
 
 // Middleware
 app.use(cors({

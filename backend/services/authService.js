@@ -1,16 +1,17 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const supabase = require('../config/supabase');
+const User = require('../models/User');
 
 const signup = async ({ email, username, password }) => {
-  // Check duplicates
-  const { data: existing } = await supabase
-    .from('users')
-    .select('id')
-    .or(`email.eq.${email},username.eq.${username}`)
-    .limit(1);
+  // Normalize email to lowercase for consistent comparison
+  const normalizedEmail = email.toLowerCase().trim();
+  const normalizedUsername = username.trim();
 
-  if (existing && existing.length > 0) {
+  // Check duplicates
+  const existing = await User.findOne({
+    $or: [{ email: normalizedEmail }, { username: normalizedUsername }],
+  });
+  if (existing) {
     const err = new Error('Email or username already taken');
     err.status = 409;
     throw err;
@@ -18,31 +19,30 @@ const signup = async ({ email, username, password }) => {
 
   const password_hash = await bcrypt.hash(password, 12);
 
-  const { data: user, error } = await supabase
-    .from('users')
-    .insert({ email, username, password_hash })
-    .select('id, email, username, created_at')
-    .single();
-
-  if (error) throw error;
+  const user = await User.create({
+    email: normalizedEmail,
+    username: normalizedUsername,
+    password_hash,
+  });
 
   const token = jwt.sign(
-    { id: user.id, email: user.email, username: user.username },
+    { id: user._id.toString(), email: user.email, username: user.username },
     process.env.JWT_SECRET,
     { expiresIn: process.env.JWT_EXPIRES_IN }
   );
 
-  return { user, token };
+  return {
+    user: { id: user._id.toString(), email: user.email, username: user.username, created_at: user.created_at },
+    token,
+  };
 };
 
 const login = async ({ email, password }) => {
-  const { data: user, error } = await supabase
-    .from('users')
-    .select('*')
-    .eq('email', email)
-    .single();
+  const normalizedEmail = email.toLowerCase().trim();
 
-  if (error || !user) {
+  const user = await User.findOne({ email: normalizedEmail });
+
+  if (!user) {
     const err = new Error('Invalid email or password');
     err.status = 401;
     throw err;
@@ -56,12 +56,12 @@ const login = async ({ email, password }) => {
   }
 
   const token = jwt.sign(
-    { id: user.id, email: user.email, username: user.username },
+    { id: user._id.toString(), email: user.email, username: user.username },
     process.env.JWT_SECRET,
     { expiresIn: process.env.JWT_EXPIRES_IN }
   );
 
-  const { password_hash, ...safeUser } = user;
+  const safeUser = { id: user._id.toString(), email: user.email, username: user.username, created_at: user.created_at };
   return { user: safeUser, token };
 };
 

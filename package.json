@@ -1,0 +1,26 @@
+{
+  "name": "backend-project",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "concurrently --kill-others-on-fail --prefix-colors \"bgBlue.bold,bgMagenta.bold\" --names \"BACKEND,FRONTEND\" \"cd backend && node server.js\" \"cd frontend && npx vite\"",
+    "start": "concurrently --kill-others-on-fail --prefix-colors \"bgBlue.bold,bgMagenta.bold\" --names \"BACKEND,FRONTEND\" \"cd backend && node server.js\" \"cd frontend && npx vite\"",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/teju736/Brain-Flip.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/teju736/Brain-Flip/issues"
+  },
+  "homepage": "https://github.com/teju736/Brain-Flip#readme",
+  "devDependencies": {
+    "concurrently": "^9.2.1"
+  }
+}

@@ -1,14 +1,9 @@
-const supabase = require('../config/supabase');
+const GameSession = require('../models/GameSession');
+const Score = require('../models/Score');
 
 const getUserStats = async (userId) => {
   // Total sessions
-  const { data: sessions, error: sessErr } = await supabase
-    .from('game_sessions')
-    .select('result, game_type, score, created_at')
-    .eq('user_id', userId)
-    .order('created_at', { ascending: false });
-
-  if (sessErr) throw sessErr;
+  const sessions = await GameSession.find({ user_id: userId }).sort({ created_at: -1 });
 
   const totalGames = sessions.length;
   const wins = sessions.filter((s) => s.result === 'win').length;
@@ -16,14 +11,7 @@ const getUserStats = async (userId) => {
   const draws = sessions.filter((s) => s.result === 'draw').length;
 
   // Best streak from scores table
-  const { data: streakData, error: streakErr } = await supabase
-    .from('scores')
-    .select('streak')
-    .eq('user_id', userId)
-    .order('streak', { ascending: false })
-    .limit(1);
-
-  if (streakErr) throw streakErr;
+  const streakData = await Score.find({ user_id: userId }).sort({ streak: -1 }).limit(1);
 
   const bestStreak = streakData.length > 0 ? streakData[0].streak : 0;
 

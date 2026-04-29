@@ -1,22 +1,17 @@
-const supabase = require('../config/supabase');
+const Score = require('../models/Score');
 
 const getLeaderboard = async (gameType) => {
-  let query = supabase
-    .from('scores')
-    .select('user_id, game_type, score, streak, created_at, users!inner(username)')
-    .order('score', { ascending: false })
-    .limit(10);
-
-  if (gameType) {
-    query = query.eq('game_type', gameType);
-  }
-
-  const { data, error } = await query;
-  if (error) throw error;
+  const query = gameType ? { game_type: gameType } : {};
+  
+  const data = await Score.find(query)
+    .sort({ score: -1 })
+    .limit(10)
+    .populate('user_id', 'username')
+    .exec();
 
   return data.map((row, index) => ({
     rank: index + 1,
-    username: row.users.username,
+    username: row.user_id ? row.user_id.username : 'Unknown',
     game_type: row.game_type,
     score: row.score,
     streak: row.streak,

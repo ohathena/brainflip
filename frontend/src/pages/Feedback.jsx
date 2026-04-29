@@ -7,7 +7,7 @@ import Input from '../components/ui/Input'
 const FORMSPREE_URL = 'https://formspree.io/f/xnjgdlwr'
 
 const CATEGORIES = ['Bug Report', 'Game Suggestion', 'UI/UX Feedback', 'Performance', 'Other']
-const GAMES = ['Memory Flip', 'General (All Games)']
+const GAMES = ['Memory Flip', 'RPS', 'General (All Games)']
 
 const StarRating = ({ value, onChange }) => (
   <div className="flex gap-1">
@@ -18,7 +18,7 @@ const StarRating = ({ value, onChange }) => (
         whileHover={{ scale: 1.2 }}
         whileTap={{ scale: 0.9 }}
         onClick={() => onChange(star)}
-        className={`text-2xl transition-all duration-150 ${star <= value ? 'text-yellow-400' : 'text-gray-700 hover:text-yellow-600'}`}
+        className={`text-xl transition-all duration-150 ${star <= value ? 'text-yellow-400' : 'text-gray-700 hover:text-yellow-600'}`}
         aria-label={`Rate ${star} stars`}
       >
         ★
@@ -80,26 +80,28 @@ export default function Feedback() {
 
   return (
     <PageWrapper className="page-container">
-      <div className="max-w-2xl mx-auto">
-        <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} className="text-center mb-10">
-          <div className="text-5xl mb-3">💬</div>
-          <h1 className="font-display text-4xl font-black text-white mb-2">Help Us Improve</h1>
-          <p className="text-gray-400">Your feedback shapes the future of ArcadeHub</p>
+      <div className="max-w-xl mx-auto">
+        {/* Compact header */}
+        <motion.div initial={{ opacity: 0, y: -16 }} animate={{ opacity: 1, y: 0 }} className="text-center mb-5">
+          <h1 className="font-display text-3xl font-black text-white mb-1">
+            💬 <span className="neon-text">Help Us</span> Improve
+          </h1>
+          <p className="text-gray-500 text-sm">Your feedback shapes ArcadeHub</p>
         </motion.div>
 
         {success ? (
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="glass-card p-12 text-center"
+            className="glass-card p-10 text-center"
           >
             <motion.div
               animate={{ rotate: [0, -10, 10, 0], scale: [1, 1.2, 1] }}
               transition={{ duration: 0.5 }}
-              className="text-6xl mb-4"
+              className="text-5xl mb-3"
             >🎉</motion.div>
             <h2 className="font-display text-2xl font-bold text-white mb-2">Thank You!</h2>
-            <p className="text-gray-400 mb-6">Your feedback has been received. We appreciate you helping us improve.</p>
+            <p className="text-gray-400 mb-5 text-sm">Your feedback has been received. We appreciate you helping us improve.</p>
             <Button onClick={() => {
               setSuccess(false)
               setForm({ email: '', category: '', game: '', message: '', rating: 0 })
@@ -109,46 +111,49 @@ export default function Feedback() {
           </motion.div>
         ) : (
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
-            className="glass-card p-8"
+            className="glass-card p-5"
           >
             {serverError && (
               <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}
-                className="bg-red-500/10 border border-red-500/30 rounded-xl p-3 mb-6 text-red-400 text-sm text-center"
+                className="bg-red-500/10 border border-red-500/30 rounded-xl p-2.5 mb-4 text-red-400 text-sm text-center"
               >
                 {serverError}
               </motion.div>
             )}
 
-            <form onSubmit={handleSubmit} className="flex flex-col gap-5">
-              <Input
-                label="Email (optional)"
-                name="email"
-                type="email"
-                value={form.email}
-                onChange={handleChange}
-                placeholder="For follow-up (optional)"
-              />
-
-              <div className="flex flex-col gap-1.5">
-                <label className="text-sm font-medium text-gray-300">
-                  Category <span className="text-primary-light">*</span>
-                </label>
-                <select
-                  name="category"
-                  value={form.category}
+            <form onSubmit={handleSubmit} className="flex flex-col gap-3">
+              {/* Email + Category in a row */}
+              <div className="grid grid-cols-2 gap-3">
+                <Input
+                  label="Email (optional)"
+                  name="email"
+                  type="email"
+                  value={form.email}
                   onChange={handleChange}
-                  className="input-field"
-                >
-                  <option value="">Select a category...</option>
-                  {CATEGORIES.map(c => <option key={c} value={c}>{c}</option>)}
-                </select>
-                {errors.category && <p className="text-red-400 text-xs">{errors.category}</p>}
+                  placeholder="your@email.com"
+                />
+                <div className="flex flex-col gap-1">
+                  <label className="text-sm font-medium text-gray-300">
+                    Category <span className="text-primary-light">*</span>
+                  </label>
+                  <select
+                    name="category"
+                    value={form.category}
+                    onChange={handleChange}
+                    className="input-field"
+                  >
+                    <option value="">Select...</option>
+                    {CATEGORIES.map(c => <option key={c} value={c}>{c}</option>)}
+                  </select>
+                  {errors.category && <p className="text-red-400 text-xs">{errors.category}</p>}
+                </div>
               </div>
 
-              <div className="flex flex-col gap-1.5">
+              {/* Game select */}
+              <div className="flex flex-col gap-1">
                 <label className="text-sm font-medium text-gray-300">Game (optional)</label>
                 <select
                   name="game"
@@ -161,7 +166,8 @@ export default function Feedback() {
                 </select>
               </div>
 
-              <div className="flex flex-col gap-1.5">
+              {/* Message */}
+              <div className="flex flex-col gap-1">
                 <label className="text-sm font-medium text-gray-300">
                   Message <span className="text-primary-light">*</span>
                 </label>
@@ -170,20 +176,22 @@ export default function Feedback() {
                   value={form.message}
                   onChange={handleChange}
                   placeholder="Tell us what you think, what broke, or what game you want next..."
-                  rows={5}
+                  rows={3}
                   className={`input-field resize-none ${errors.message ? 'border-red-500' : ''}`}
                 />
                 {errors.message && <p className="text-red-400 text-xs">{errors.message}</p>}
               </div>
 
-              <div className="flex flex-col gap-2">
-                <label className="text-sm font-medium text-gray-300">Overall Rating</label>
-                <StarRating value={form.rating} onChange={(r) => setForm({ ...form, rating: r })} />
+              {/* Rating + Submit in a row */}
+              <div className="flex items-center justify-between gap-3">
+                <div className="flex flex-col gap-1">
+                  <label className="text-sm font-medium text-gray-300">Rating</label>
+                  <StarRating value={form.rating} onChange={(r) => setForm({ ...form, rating: r })} />
+                </div>
+                <Button type="submit" loading={loading} variant="neon" size="lg" className="flex-1">
+                  Submit Feedback 🚀
+                </Button>
               </div>
-
-              <Button type="submit" loading={loading} variant="neon" size="lg" className="mt-2">
-                Submit Feedback 🚀
-              </Button>
             </form>
           </motion.div>
         )}

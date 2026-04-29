@@ -17,6 +17,19 @@ const GAMES = [
     glow: 'shadow-neon-cyan',
     accent: 'text-cyan-400',
   },
+  {
+    id: 'rps',
+    icon: '✊',
+    title: 'Rock Paper Scissors',
+    subtitle: 'Quick Reflex',
+    description: 'Challenge the AI! Pick your move in 5 seconds or lose the round. Best of 3 or Best of 5.',
+    tags: ['Best of 3', 'Best of 5', '5s Timer'],
+    path: '/games/rps',
+    gradient: 'from-purple-600/20 via-pink-600/10 to-transparent',
+    border: 'border-purple-500/30',
+    glow: 'shadow-purple-500/40',
+    accent: 'text-purple-400',
+  },
 ]
 
 const containerVariants = {
@@ -98,14 +111,7 @@ export default function GameHub() {
           ))}
         </motion.div>
 
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.6 }}
-          className="mt-8 text-center text-sm text-gray-600"
-        >
-          More games coming soon...
-        </motion.div>
+
       </div>
     </PageWrapper>
   )
